@@ -22,9 +22,6 @@ class UsersController extends AppController
     function captcha()	{
         $this->autoRender = false;
         $this->viewBuilder()->layout('ajax');
-        if(!isset($this->Captcha))	{ //if you didn't load in the header
-            $this->Captcha = $this->loadComponent('Captcha', ['field'=>'securitycode']); //load it
-        }
         $this->Captcha->create();
     }
 
