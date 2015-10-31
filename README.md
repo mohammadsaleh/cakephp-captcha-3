@@ -108,7 +108,7 @@ Open the Controller/Component/CaptchaComponent.php file and make necessary chang
     $custom1['width']=150;
     $custom1['height']=50;
     $custom1['theme']='default';
-    $this->Captcha->render($custom1);
+    echo $this->Captcha->create($custom1);
 
 ###Multiple captchas:
 
@@ -116,12 +116,12 @@ Open the Controller/Component/CaptchaComponent.php file and make necessary chang
     echo $this->Form->create($user);
     $custom1['width']=150;
     $custom1['height']=50;
-    $this->Captcha->render($custom1);
+    echo $this->Captcha->create($custom1);
 
     //form 2, A math captcha, anywhere on the page
     echo $this->Form->create($user);
     $custom2['type']='math';
-    $this->Captcha->render($custom2);
+    echo $this->Captcha->create($custom2);
 
 
 **Settings that can be set in your view file:**
