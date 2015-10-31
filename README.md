@@ -32,7 +32,7 @@ Add in the top initialize function of your Controller.
 
     $this->loadComponent('Captcha', ['field'=>'securitycode']);
 
-Note: "*captcha*" is the default input field name with which we are binding this captcha in examples. Replace with appropriate name.
+Note: In these examples "*captcha*" and *User* are the default input field name and the Table names respectively. Replace with appropriate names.
 
 Add this function in your controller.
 
@@ -71,11 +71,11 @@ Add following code in the initialize function:
 	'message' => 'Incorrect captcha code value'
 	]);
 
-###In View
+###In Template\User\add.ctp
 
 In the view file, add the following line of code, wherever you want captcha image and input box to be appeared:
 
-    $this->Captcha->render('securitycode');
+    echo $this->Captcha->create('securitycode', $settings); //$settings are optional
 
 Also place the following javascript script code in somewhere in your page body so it is called properly and executed. Skip jquery library call if already loaded.
 
