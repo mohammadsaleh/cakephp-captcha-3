@@ -146,14 +146,14 @@ Size
 
 Notes
 --------------------
-Math captha is working now.
-Tested with CakePHP 3.1.1
+* Math captha is working now.
+* Tested with CakePHP 3.1.1
 
 License
 --------------------
-Licensed under The MIT License
-Redistributions of files must retain the given copyright notice.
-http://opensource.org/licenses/MIT
+* Licensed under The MIT License
+* Redistributions of files must retain the given copyright notice.
+* http://opensource.org/licenses/MIT
 
 
 Copyright
