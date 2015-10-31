@@ -42,7 +42,7 @@ Add this function in your controller.
         $this->Captcha->create();
     }
 
-Add similar logic to the the "action" of your form in your controller. Like ending with comment "//captcha" is the one which is related to the captcha call.
+Add similar logic to the the "action" of your form in your controller. Line ending with comment "//captcha" is the one which is related to the captcha call.
 
     public function add()
     {
