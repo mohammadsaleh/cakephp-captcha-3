@@ -22,7 +22,7 @@ http://captcha.inimist.com
 Installation
 --------------------
 
-Place all files bundled in this package in corresponding folders.
+Place all files (except "controller" and "table" file) bundled in this package in corresponding folders.
 
 Follow instructions given below to place code in Controller, Model\Table and Template files.
 
