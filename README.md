@@ -1,4 +1,4 @@
-Cakephp Captcha Component 3.0-beta
+Cakephp Captcha Component 3.0
 =============================
 
 A CakePHP 3.x Component to have Captcha support. Tested with CakePHP 3.1.1
@@ -6,13 +6,10 @@ A CakePHP 3.x Component to have Captcha support. Tested with CakePHP 3.1.1
 Features
 --------------------
 * Multiple Captcha Support.
-	- It simply supports multiple captchas on a page. In different forms or 
-	in a single form.
+	- It simply supports multiple captchas on a page. In different forms or in a single form.
 * Model Validation attahced as Behavior
-* Image and/or Simple Math Captchas
-* Configurable Model Name, Field Name, Captcha Height, Width, Number of 
-Characters and Font Face, Size, Angle 
-of rotation
+* Image and Simple Math Captcha
+* Configurable Model Name, Field Name, Captcha Height, Width, Number of Characters and Font Face, Size, Angle of rotation
 * Works without GD Truetype font support
 * Random or Fixed Captcha Themes for Image Captchaa
 * Random Font face
@@ -25,17 +22,9 @@ http://captcha.inimist.com
 Installation
 --------------------
 
-Place all files bundled in this package in corresponding folders. Then follow instructions given below.
+Place all files bundled in this package in corresponding folders.
 
-Configuration
---------------------
-
-Open the Controller/Component/CaptchaComponent.php file and make necessary changes in the $settings variable defined near line 125.
-
-Implementation
---------------------
-
-Follow instructions given below to place code in Controller, Model and View files.
+Follow instructions given below to place code in Controller, Model\Table and Template files.
 
 ###In Controller
 
@@ -107,6 +96,10 @@ Also place the following javascript script code in somewhere in your page body s
 
 That should be it!
 
+Optional Configuration
+--------------------
+Open the Controller/Component/CaptchaComponent.php file and make necessary changes in the $settings variable defined near line 130.
+
 ##More examples
 
 ###Custom settings:
@@ -151,9 +144,10 @@ Size
 * *clabel*: Label for Image Captcha Value input field
 * *mlabel*: Label for Math Captcha Value input field
 
-Note
+Notes
 --------------------
-Math captha is not working right now.
+Math captha is working now.
+Tested with CakePHP 3.1.1
 
 License
 --------------------
@@ -164,4 +158,4 @@ http://opensource.org/licenses/MIT
 
 Copyright
 --------------------
-Copyright (C) Arvind Kumar, arvind@inimist.com
+Copyright (C) Arvind Kumar, arvind@inimist.com, All rights reserved.

@@ -4,7 +4,7 @@
  * @author     Arvind Kumar
  * @link       http://www.devarticles.in/
  * @copyright  Copyright © 2014 http://www.devarticles.in/
- * @version 3.0 - Tested OK in Cakephp 2.5.4
+ * @version 3.0 - Tested OK in Cakephp 3.1.1
  */
 
 namespace App\View\Helper;
@@ -35,50 +35,61 @@ class CaptchaHelper extends Helper {
  * @param array $config Settings array Settings array
  */
     public function __construct(View $View, $config = []) {
+				$this->View = $View;
         parent::__construct($View, $config);
-				$this->settings = $config;
     }
 
-    function render($field='captcha', $config=array()) {
+    function create($field='captcha', $config=array()) {
 
-        $this->settings = array_merge($this->settings, (array)$config);
+				$html = '';
 
-        $this->settings['reload_txt'] = isset( $this->settings['reload_txt']) ? __($this->settings['reload_txt']) : __('Can\'t read? Reload');
+        $this->_config = array_merge($this->_config, (array)$config);
 
-        $this->settings['clabel'] = isset( $this->settings['clabel']) ? __($this->settings['clabel']) : __('<p>Enter security code shown above:</p>');
+        $this->_config['reload_txt'] = isset( $this->_config['reload_txt']) ? __($this->_config['reload_txt']) : __('Can\'t read? Reload');
 
-        $this->settings['mlabel'] = isset( $this->settings['mlabel']) ? __($this->settings['mlabel']) : __('<p>Answer Simple Math</p>');
+        $this->_config['clabel'] = isset( $this->_config['clabel']) ? __($this->_config['clabel']) : __('<p>Enter security code shown above:</p>');
 
-        $controller = strtolower( $this->settings['controller']);
-        $action =  $this->settings['action'];
+        $this->_config['mlabel'] = isset( $this->_config['mlabel']) ? __($this->_config['mlabel']) : __('<p>Answer Simple Math</p>');
+
+        $controller = strtolower( $this->_config['controller']);
+        $action =  $this->_config['action'];
         $qstring = array(
-            'type' =>   $this->settings['type'],
+            'type' =>   $this->_config['type'],
             'field' =>  $field
         );
 
-        switch( $this->settings['type']):
+        switch( $this->_config['type']):
             case 'image':
 
                 $qstring = array_merge($qstring, array(
-                    'width' =>  $this->settings['width'],
-                    'height'=>  $this->settings['height'],
-                    'theme' =>  $this->settings['theme'],
-                    'length' => $this->settings['length'],
+                    'width' =>  $this->_config['width'],
+                    'height'=>  $this->_config['height'],
+                    'theme' =>  $this->_config['theme'],
+                    'length' => $this->_config['length'],
                 ));
 
-                echo $this->Html->image(array('controller'=>$controller, 'action'=>$action, '?'=> $qstring), array('vspace'=>2));
-                echo $this->Html->link( $this->settings['reload_txt'], '#', array('class' => 'creload', 'escape' => false));
-                echo $this->Form->input($field, array('autocomplete'=>'off','label'=> $this->settings['clabel'],'class'=>'clabel'));
+                $html .= $this->Html->image(array('controller'=>$controller, 'action'=>$action, '?'=> $qstring), array('hspace'=>2));
+                $html .= $this->Html->link( $this->_config['reload_txt'], '#', array('class' => 'creload', 'escape' => false));
+                $html .= $this->Form->input($field, array('autocomplete'=>'off','label'=> $this->_config['clabel'],'class'=>'clabel'));
             break;
             case 'math':
                 $qstring = array_merge($qstring, array('type'=>'math'));
-                if(isset($this->settings['stringOperation']))   {
-                    echo  $this->settings['mlabel'] .  $this->settings['stringOperation'].' = ?';
+                if(isset($this->_config['stringOperation']))   {
+                    $html .= $this->_config['mlabel'] .  $this->_config['stringOperation'].' = ?';
                 }   else    {
-                    echo $this->requestAction(array('controller'=>$controller, 'action'=>$action, '?'=> $qstring));
+										ob_start();
+                    $this->View->requestAction(array('controller'=>$controller, 'action'=>$action, '?'=> $qstring));
+										$mathstring = ob_get_contents();
+										ob_end_clean();
                 }
-                echo $this->Form->input($field, array('autocomplete'=>'off','label'=>false,'class'=>''));
+								$errorclass='';
+								if($this->Form->isFieldError($field)) $errorclass = 'error';
+								$html .= '<div class="input text required '.$errorclass.'">' . $this->Form->label($field, $this->_config['mlabel']) . '</div>';
+								$html .= '<div><strong>' . $mathstring . '</strong>' . ' = ?</div>';
+                $html .= $this->Form->input($field, array('autocomplete'=>'off','label'=>false,'class'=>''));
             break;
         endswitch;
+
+				return $html;
     }
 }

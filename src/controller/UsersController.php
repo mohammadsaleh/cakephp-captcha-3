@@ -13,7 +13,7 @@ class UsersController extends AppController
   	public function initialize()
     {
       parent::initialize();
-      $this->loadComponent('Captcha', ['field'=>'securitycode']);
+      $this->loadComponent('Captcha');
     }
 		public function beforeFilter(\Cake\Event\Event $event)
 		{
@@ -21,6 +21,7 @@ class UsersController extends AppController
 		}
     function captcha()	{
         $this->autoRender = false;
+				//$this->loadComponent('Captcha'); //or load on the fly!
         $this->viewBuilder()->layout('ajax');
         $this->Captcha->create();
     }
@@ -60,6 +61,7 @@ class UsersController extends AppController
     public function add()
     {
         $user = $this->Users->newEntity();
+				//$this->loadComponent('Captcha'); //or load on the fly!
         if ($this->request->is('post')) {
 						$this->Users->setCaptcha('securitycode', $this->Captcha->getCode('securitycode'));
             $user = $this->Users->patchEntity($user, $this->request->data);

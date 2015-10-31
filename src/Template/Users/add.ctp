@@ -14,7 +14,8 @@
             echo $this->Form->input('email');
 						echo $this->Form->input('name');
             echo $this->Form->input('password');
-            $this->Captcha->render('securitycode');
+            echo $this->Captcha->create('securitycode', ['type'=>'image' //or 'math'
+						, 'theme'=>'random']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -61,6 +61,7 @@
                  custom configurations from view file if found
  * 2015-01-22  - Tested with Cakephp 2.6.0
  * 2015-10-16  - Tested with Cakephp 2.7.5
+ * 2015-10-31  - Tested with Cakephp 3.1.1
  *
  */
 
@@ -70,13 +71,6 @@
 	use Cake\Controller\ComponentRegistry;
 
   class CaptchaComponent extends Component	{
-
-    /**
-     * Other Components this component will use.
-     *
-     * @var array
-     */
-		//public $components = ['Session'];
 
     /**
      * Default monospaced fonts available
@@ -194,14 +188,12 @@
     }
 
     /**
-     * Set some date for the CaptchaHelper
+     * beforeRender
      *
      * @param ($instance of Controller) 
      */
     public function beforeRender() {
         $this->Controller->helpers['Captcha'] = array_merge($this->__getSettings(), array('controller'=>$this->Controller->request->params['controller'], 'action'=>'captcha'));
-        //$this->Controller->set('captchaSettings', array_merge($this->__getSettings(), array('controller'=>$this->Controller->params['controller'], 'action'=>'captcha')));
-        //debug($this->settings);
     }
 
     /**
@@ -267,9 +259,9 @@
         /*if(isset($this->Controller->request->data[$this->settings['model']][$this->settings['field']]))  {
           $this->Controller->Session->write('security_code_math', $this->Controller->Session->read('security_code'));
         }*/
+				
         $this->__mathCaptcha();
-        $this->Controller->set('settings', $this->settings);
-        $this->Controller->render('/Element/captchamath');
+				echo  __($this->settings['stringOperation']);
         break;
       endswitch;
     }
@@ -284,16 +276,16 @@
        $this->settings['font'] = $font_path . DS . $font_name;
 
         if(!$this->__gdInfo())  {
-           $this->__setError('Cannot use image captcha as GD library is not enabled! Set $this->settings[\'type\'] => \'math\' in order to show a simple math captcha instead!');
+           $this->__setError(__('Cannot use image captcha as GD library is not enabled! Set $this->settings[\'type\'] => \'math\' in order to show a simple math captcha instead!'));
            $this->fatalError = true;
         } else  {
           if(!$this->__TTFEnabled())  {
-            $this->__setError("For best results use GD library with freetype font enabled!");
+            $this->__setError(__("For best results use GD library with freetype font enabled!"));
             if(Configure::read('debug'))  {
-              debug("CAPTCHA COMPONENT - For best results use GD library with Freetype enabled!");
+              debug(__("CAPTCHA COMPONENT - For best results use GD library with Freetype enabled!"));
             }
           } else if(!file_exists($this->settings['font'])) {
-            $this->__setError("The font file does not exist at the location: " . $this->settings['font']);
+            $this->__setError(__("Font file does not exist at location: ") . $this->settings['font']);
             $this->fatalError = true;
           }
         }
@@ -309,6 +301,7 @@
       return $this->settings['type'];
     }
     private function __mathCaptcha()  {
+			
       $operators = array("+", "-", "*");
       $rand_key = array_rand($operators);
       switch($operators[$rand_key]):
@@ -332,9 +325,11 @@
         break;
       endswitch;
       $this->settings['stringOperation'] = $stringOperation;
+			//debug($this->settings['stringOperation']);
+			//debug($this->__getSessionKey());
+			//debug($code);
       $this->Session->write($this->__getSessionKey(), $code);
     }
-
 
     function __imageCaptcha() {
         $width = $this->settings['width'];
@@ -398,12 +393,6 @@
         imagedestroy($image);
     }
     function getCode($sessionKey)	{
-      /*if($this->__getType()=='image')  {
-        return $this->Controller->Session->read('Captcha.{$sessionKey}');
-      } else if($this->__getType()=='math')  {
-        return $this->Controller->Session->read('Captcha.{$sessionKey}_math');
-      }*/
-      //$sessionKey = str_replace('.', '_', $sessionKey);
       return $this->Session->read("{$sessionKey}");
     }
     private function __prepareThemes()	{
@@ -434,7 +423,7 @@
     }
     private function __getStringErrors()  {
       if($this->__hasErrors())  {
-        $html = '<p>CAPTCH ERRORS:</p><ul class="c-errors">';
+        $html = '<p>CAPTCHA ERRORS:</p><ul class="c-errors">';
         foreach($this->__getErrors() as $error) {
           $html .= '<li>' . $error . '</li>';
         }
