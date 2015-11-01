@@ -3,7 +3,7 @@ Cakephp Captcha Support 3.0
 
 CakePHP Captcha support. Tested with CakePHP 3.1.1
 
-For [CakePHP 2.x version it is here](https://github.com/inimist/cakephp-captcha)
+[CakePHP 2.x version is here](https://github.com/inimist/cakephp-captcha)
 
 Features
 --------------------
